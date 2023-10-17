@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-const Index = () => {
+const Search = () => {
   const [value, setValue] = useState("");
 
   return (
@@ -10,4 +10,4 @@ const Index = () => {
   )
 }
 
-export default Index;
+export default Search;

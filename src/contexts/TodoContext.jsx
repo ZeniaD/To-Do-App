@@ -29,7 +29,6 @@ export const TodoProvider = ({ children }) => {
 
   const handleRemove = (id) => {
     const newList = todos.filter((element) => element.id !== id);
-    console.log(newList)
     setTodos(newList);
   }
 
