@@ -1,19 +1,20 @@
 import React from "react";
-import {BrowserRouter as Router, Link, Route, Routes} from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {TaskProvider} from "./contexts/TaskContext";
 import Home from "./pages/Home.jsx";
-import AddTask from "./pages/AddTask.jsx";
-import {TodoProvider} from "./contexts/todoContext";
+import AddTask from "./pages/AddTask";
+import EditTask from "./pages/EditTask";
 
 function App() {
   return (
     <Router>
-      <TodoProvider>
+      <TaskProvider>
         <Routes>
           <Route exact path="/" element={<Home/>}/>
           <Route path="/task/add" element={<AddTask/>}/>
-          {/*<Route path="/todo/:id" element={<TodoDetail />} />*/}
+          <Route path="/task/edit/:id" element={<EditTask/>}/>
         </Routes>
-      </TodoProvider>
+      </TaskProvider>
     </Router>
   );
 }
