@@ -1,4 +1,3 @@
-import React from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {TaskProvider} from "./contexts/TaskContext";
 import Home from "./pages/Home.jsx";

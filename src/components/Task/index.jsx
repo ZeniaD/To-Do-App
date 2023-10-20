@@ -76,7 +76,6 @@ const Task = ({task}) => {
         <span className="text-sm text-slate-800 py-[5px] px-[8px] rounded-[20px] mr-[5px] bg-white opacity-60">Priority: {task.priority}</span>
         <span className="text-sm text-slate-800 py-[5px] px-[8px] rounded-[20px] bg-white opacity-60">Complexity: {task.complexity}</span>
       </div>
-
       <div>
         <p>Progress</p>
         <div className="w-full h-1 bg-white rounded-sm my-1">
@@ -84,7 +83,6 @@ const Task = ({task}) => {
         </div>
         <p className="float-right">{progress}%</p>
       </div>
-
     </div>
   )
 }

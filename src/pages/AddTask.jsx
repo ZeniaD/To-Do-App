@@ -1,7 +1,6 @@
 import {useTask} from "../contexts/TaskContext";
 import Form from "../components/Form";
 
-
 const AddTask = () => {
   const {addTask} = useTask();
 
