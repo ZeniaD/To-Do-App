@@ -19,10 +19,7 @@ export const TaskProvider = ({ children }) => {
   const editTask = (id, item) => {
     const newList = tasks.map((element) => {
       if (element.id === id) {
-        element.title = item.title;
-        element.priority = item.priority;
-        element.complexity = item.complexity;
-        element.dueDate = item.dueDate;
+        return { ...element, ...item };
       }
       return element;
     });

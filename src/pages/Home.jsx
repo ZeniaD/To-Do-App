@@ -35,6 +35,7 @@ const Home = () => {
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   }
+
   const filteredList = tasks.filter((element) => element.title.toLowerCase().includes(searchValue.toLowerCase()));
   const sortedList = getSortedList(filteredList);
 
