@@ -60,7 +60,7 @@ const Home = () => {
             </Link>
           </div>
 
-          {!tasks.length && <h2 className="p-[15px] text-slate-400">No Tasks. Add Tasks '+'</h2>}
+          {!tasks.length && <h2 className="p-[15px] text-slate-400">No Tasks. Add Tasks +</h2>}
 
           {!!tasks.length && (<div className="pt-[15px] grid grid-cols-3 gap-2.5">
             {sortedList.map((task) => (

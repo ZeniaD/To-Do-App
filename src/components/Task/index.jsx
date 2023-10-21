@@ -69,7 +69,7 @@ const Task = ({task}) => {
     <div className={`w-full min-h-[200px] flex flex-col rounded-[20px] border-indigo-400 border p-[15px] relative ${task.isCompleted ? "bg-emerald-100 line-through" : "bg-indigo-50"}`}>
       <div className="relative">
         <span className={`opacity-80 text-xs ${dateIsToday() ? "text-red-900" : "text-slate-900"}`}>{formatDate(task.dueDate)}</span>
-        <div className="absolute right-0 top-0 right-0">
+        <div className="absolute top-0 right-0">
           <button onClick={() => handleComplete(task.id)} className="w-[25px] h-[25px] hover:scale-125 transition-all">
             {task.isCompleted ? <FontAwesomeIcon icon={faCircleCheck} />: <FontAwesomeIcon icon={faCircleOutline} />}
           </button>
@@ -77,7 +77,7 @@ const Task = ({task}) => {
             <FontAwesomeIcon icon={faEllipsisVertical} />
           </button>
         </div>
-        <div className={`z-10 absolute right-0 top-[25px] right-0 bg-white w-[100px] rounded-[8px] p-[10px] ${showMenu ? "" : "hidden"}`}>
+        <div className={`z-10 absolute top-[25px] right-0 bg-white w-[100px] rounded-[8px] p-[10px] ${showMenu ? "" : "hidden"}`}>
           <Link to={`/task/edit/${task.id}`} className="block w-full text-blue-900 hover:text-blue-700 text-left"><FontAwesomeIcon className="pr-[5px]" icon={faPenToSquare}/> Edit</Link>
           <button className="block w-full  text-rose-700 hover:text-rose-500 text-left" type="button" onClick={() => handleRemove(task.id)}><FontAwesomeIcon className="pr-[5px]" icon={faTrashCan}/> Delete</button>
         </div>

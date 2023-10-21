@@ -1,11 +1,10 @@
-import { createContext, useState, useContext } from "react";
-import { uid } from "uid";
+import {createContext, useContext, useState} from "react";
+import {uid} from "uid";
 
 export const TaskContext = createContext();
 
 export function useTask() {
-  const value = useContext(TaskContext);
-  return value;
+  return useContext(TaskContext);
 }
 
 export const TaskProvider = ({ children }) => {

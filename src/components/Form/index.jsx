@@ -97,7 +97,7 @@ const Form = (props) => {
           <input id="task-date" type="date"
                  value={dueDate}
                  onChange={(e) => setDueDate(e.target.value)}
-                 className="block p-[10px] focus:outline-none rounded-[30px] border border-slate-600 min-w-full leading-5 flex items-center"/>
+                 className="p-[10px] focus:outline-none rounded-[30px] border border-slate-600 min-w-full leading-5 flex items-center"/>
           <ListForm handleSubmit={handleChecklistSubmit}/>
           {!!checklist.length && <CheckList checklist={checklist} removeChecklistItem={removeChecklistItem} completeChecklistItem={completeChecklistItem}/>}
           <button type="submit"
