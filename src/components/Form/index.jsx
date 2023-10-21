@@ -60,14 +60,14 @@ const Form = (props) => {
   }
 
   useEffect(() => {
-    if (props.task !== undefined) {
+    if (props.task) {
       setTitle(props.task.title);
       setPriority(props.task.priority);
       setComplexity(props.task.complexity);
       setDueDate(props.task.dueDate);
       setChecklist(props.task.checklist);
     }
-  }, [props.task])
+  }, [])
 
   return (
     <div className="bg-slate-200 min-h-screen p-[30px] flex justify-center">

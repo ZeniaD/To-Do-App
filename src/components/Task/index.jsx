@@ -52,12 +52,23 @@ const Task = ({task}) => {
     setShowMenu(!showMenu);
   }
 
+  const dateIsNear = () => {
+    const currentDate = new Date();
+    const futureDate = currentDate.setDate(currentDate.getDate() + 2);
+    return new Date(task.dueDate) <= futureDate;
+  }
+
+  const dateIsToday = () => {
+    const currentDate = new Date();
+    return new Date(task.dueDate) === currentDate;
+  }
+
   const progress = Math.floor(( task.checklist.filter((item) => item.isCompleted === true).length / task.checklist.length) * 100);
 
   return (
-    <div className={`w-full min-h-[200px] rounded-[20px] p-[15px] relative ${task.isCompleted ? "bg-emerald-100 line-through" : bgColor[task.priority]}`}>
+    <div className={`w-full min-h-[200px] flex flex-col rounded-[20px] border-indigo-400 border p-[15px] relative ${task.isCompleted ? "bg-emerald-100 line-through" : "bg-indigo-50"}`}>
       <div className="relative">
-        <span className="text-teal-900 opacity-80 text-xs">{formatDate(task.dueDate)}</span>
+        <span className={`opacity-80 text-xs ${dateIsToday() ? "text-red-900" : "text-slate-900"}`}>{formatDate(task.dueDate)}</span>
         <div className="absolute right-0 top-0 right-0">
           <button onClick={() => handleComplete(task.id)} className="w-[25px] h-[25px] hover:scale-125 transition-all">
             {task.isCompleted ? <FontAwesomeIcon icon={faCircleCheck} />: <FontAwesomeIcon icon={faCircleOutline} />}
@@ -73,16 +84,23 @@ const Task = ({task}) => {
       </div>
       <div className="text-center py-[15px]">
         <p className="text-lg font-semibold mb-[8px] capitalize">{task.title}</p>
-        <span className="text-sm text-slate-800 py-[5px] px-[8px] rounded-[20px] mr-[5px] bg-white opacity-60">Priority: {task.priority}</span>
+        <span className={`text-sm text-slate-950 py-[5px] px-[8px] rounded-[20px] mr-[5px] opacity-60 ${bgColor[task.priority]}`}>Priority: {task.priority}</span>
         <span className="text-sm text-slate-800 py-[5px] px-[8px] rounded-[20px] bg-white opacity-60">Complexity: {task.complexity}</span>
       </div>
-      <div>
+      {!!task.checklist.length && (<div>
         <p>Progress</p>
         <div className="w-full h-1 bg-white rounded-sm my-1">
-          <span className={`rounded-sm h-1 block ${progressColor[task.priority]}`} style={{width: `${progress}%`}}></span>
+          <span className={`rounded-sm h-1 block ${progressColor[task.priority]}`}
+                style={{width: `${progress}%`}}></span>
         </div>
         <p className="float-right">{progress}%</p>
-      </div>
+      </div>)}
+
+      {dateIsNear() && (
+          <div className="mt-auto">
+            <span className="text-sm py-[5px] px-[8px] float-right rounded-[20px] mr-[5px] text-orange-800 opacity-80">Less than 3 Days</span>
+          </div>
+      )}
     </div>
   )
 }
