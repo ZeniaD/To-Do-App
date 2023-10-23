@@ -21,14 +21,14 @@ const ListForm = (props) => {
   return (
     <>
       <label htmlFor="task-checklist"
-             className="pt-[10px] pb-[10px] block">Subtasks</label>
-      <div className="relative">
+             className="pt-[10px] pb-[10px] block text-white">Subtasks</label>
+      <div className="flex items-center">
       <input id="task-checklist" type="text" placeholder="Add Subtask"
              value={value}
              onChange={(e) => setValue(e.target.value)}
              onKeyPress={handleChecklistKeyPress}
-             className="block p-[10px] focus:outline-none rounded-[30px] border border-slate-600 min-w-full"/>
-        <button onClick={handleSubmit} className="absolute right-[10px] top-[8px] p-1 bg-slate-200 rounded-full w-[30px] h-[30px] flex justify-center items-center"><FontAwesomeIcon icon={faPlus}/></button>
+             className="block p-[10px] focus:outline-none rounded-lg bg-darkish-gray text-soft-silver w-full"/>
+        <button onClick={handleSubmit} className="top-[8px] ml-3 p-1 border-peach border-dashed border rounded-full w-[30px] h-[30px] flex justify-center items-center text-white"><FontAwesomeIcon icon={faPlus}/></button>
       </div>
     </>
   )

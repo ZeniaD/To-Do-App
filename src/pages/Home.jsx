@@ -5,10 +5,9 @@ import {faAngleDown, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {useTask} from "../contexts/TaskContext";
 import Task from "../components/Task";
 import SortDropdown from "../components/SortDropdown";
-import Sidebar from "../components/Sidebar";
 
 const Home = () => {
-  const [sort, setSort] = useState({ order: "Default", sortBy: "priority"});
+  const [sort, setSort] = useState({order: "Default", sortBy: "priority"});
   const [showMenu, setShowMenu] = useState(false);
   const [searchValue, setSearchValue] = useState("")
   const {tasks} = useTask();
@@ -41,38 +40,40 @@ const Home = () => {
   const sortedList = getSortedList(filteredList);
 
   return (
-    <div className="bg-indigo-50 min-h-screen gap-[30px] p-[30px] flex flex-col">
-      <div className="w-[100%]">
-        <input placeholder="Search" className="p-[10px] rounded-[20px] shadow-md w-[350px]" onChange={(e) => setSearchValue(e.target.value)}/>
+    <div className="bg-dark-gray min-h-screen flex flex-col w-full p-8">
+      <div className="w-[100%] mb-8">
+        <input placeholder="Search"
+               className="p-[10px] bg-darkish-gray rounded-lg shadow-md w-[350px] focus:outline-none text-white"
+               onChange={(e) => setSearchValue(e.target.value)}/>
       </div>
-      <div className="flex gap-[30px] grow h-full">
-        <div className="w-[70%] bg-white p-[20px] rounded-[20px]">
-          <div className="relative flex gap-[10px]">
-            <button onClick={toggleMenu}
-                    className="px-[5px] py-1 min-w-[100px] text-center rounded-md border border-slate-400 hover:border-slate-600 hover:text-slate-600 text-slate-500 flex items-center justify-between"
-                    type="button">
-              Sort By
-              <FontAwesomeIcon icon={faAngleDown} className={`h-[12px]  mx-1 ${showMenu ? "rotate-180" : ""}`}/>
-            </button>
-            {showMenu && <SortDropdown handleClick={handleClick}/>}
-            <p className="px-[5px] py-1 min-w-[100px] text-center rounded-md border border-slate-400 text-slate-500 flex items-center justify-between">Tag</p>
-            <Link to='/task/add' className="absolute right-0 p-1 bg-slate-600 rounded-full w-[30px] h-[30px] flex justify-center items-center text-white">
-              <FontAwesomeIcon icon={faPlus} />
-            </Link>
-          </div>
 
-          {!tasks.length && <h2 className="p-[15px] text-slate-400">No Tasks. Add Tasks +</h2>}
-
-          {!!tasks.length && (<div className="pt-[15px] grid grid-cols-3 gap-2.5">
-            {sortedList.map((task) => (
-              <Task key={task.id} task={task}/>
-            ))}
-          </div>)}
-        </div>
-        <div className="w-[30%] min-w-[450px] bg-white p-[20px] rounded-[20px]">
-          <Sidebar />
-        </div>
+      <div className="flex items-center mb-4">
+        <h1 className="text-white inline-block mr-2 text-3xl">All Tasks</h1>
+        <Link to='/task/add'
+              className="p-1 border-dashed border-peach border rounded-full w-[32px] h-[32px] inline-flex items-center justify-center text-white">
+          <FontAwesomeIcon icon={faPlus}/>
+        </Link>
       </div>
+
+      <div className="relative flex gap-[10px]">
+        <button onClick={toggleMenu}
+                className="px-[5px] py-1 min-w-[100px] text-center rounded-md border border-[#313132] hover:border-peach text-white flex items-center justify-between"
+                type="button">
+          Sort By
+          <FontAwesomeIcon icon={faAngleDown} className={`h-[12px]  mx-1 ${showMenu ? "rotate-180" : ""}`}/>
+        </button>
+        {showMenu && <SortDropdown handleClick={handleClick}/>}
+        <p
+          className="px-[5px] py-1 min-w-[100px] text-center rounded-md border border-[#313132] hover:border-peach text-white flex items-center justify-between">Tag</p>
+      </div>
+
+      {!tasks.length && <h2 className="pt-8  text-soft-silver">No Tasks. Add Tasks +</h2>}
+
+      {!!tasks.length && (<div className="pt-8 grid grid-cols-3 gap-4">
+        {sortedList.map((task) => (
+          <Task key={task.id} task={task}/>
+        ))}
+      </div>)}
     </div>
   )
 }

@@ -69,36 +69,36 @@ const Form = (props) => {
   }
 
   return (
-    <div className="bg-slate-200 min-h-screen p-[30px] flex justify-center">
-      <div className="max-w-[800px] w-full mx-4 bg-white p-[20px] rounded-[20px]">
+    <div className="bg-dark-gray min-h-screen flex flex-col w-full p-8">
+      <div className="max-w-[800px] w-full mx-4 p-[20px]">
         <div className="relative">
           <Link to='/'
-                className="absolute p-1 bg-slate-200 rounded-full w-[30px] h-[30px] flex justify-center items-center">
+                className="absolute p-1 border-dashed border-peach border rounded-full w-[32px] h-[32px] inline-flex items-center justify-center text-white">
             <FontAwesomeIcon icon={faArrowLeft}/>
           </Link>
-          <h1 className="text-center text-2xl font-semibold">{props.title}</h1>
+          <h1 className="text-center text-2xl font-semibold text-white">{props.title}</h1>
         </div>
         <form className="pt-[20px] pb-[20px]" onSubmit={handleSubmit}>
-          <label htmlFor="task-name" className="pt-[10px] pb-[10px] block">Task
+          <label htmlFor="task-name" className="pt-[10px] pb-[10px] block text-white">Task
             Name</label>
           <input id="task-name" type="text" placeholder="Add Task..."
                  value={title}
                  onChange={(e) => setTitle(e.target.value)}
-                 className="block p-[10px] focus:outline-none rounded-[30px] border border-slate-600 min-w-full"/>
-          <h3 className="pt-[10px] pb-[10px]">Select Priority:</h3>
+                 className="block p-[10px] focus:outline-none bg-darkish-gray rounded-lg min-w-full text-soft-silver"/>
+          <h3 className="pt-[10px] pb-[10px] text-white">Select Priority:</h3>
           <div className="flex gap-[5px] max-w-[400px] h-8">
             <SelectButtons handleChange={handlePriorityChange} value={priority} property="priority"/>
           </div>
-          <h3 className="pt-[10px] pb-[10px]">Select Complexity:</h3>
+          <h3 className="pt-[10px] pb-[10px] text-white">Select Complexity:</h3>
           <div className="flex gap-[5px] max-w-[400px] h-8">
             <SelectButtons handleChange={handleComplexityChange} value={complexity} property="complexity"/>
           </div>
-          <label htmlFor="task-date" className="pt-[10px] pb-[10px] block">Due
+          <label htmlFor="task-date" className="pt-[10px] pb-[10px] block text-white">Due
             Date:</label>
           <input id="task-date" type="date"
                  value={dueDate}
                  onChange={(e) => setDueDate(e.target.value)}
-                 className="p-[10px] focus:outline-none rounded-[30px] border border-slate-600 min-w-full leading-5 flex items-center"/>
+                 className="p-[10px] focus:outline-none rounded-lg border-slate-600 bg-darkish-gray min-w-full leading-5 flex items-center text-soft-silver"/>
           <ListForm handleSubmit={handleChecklistSubmit}/>
           {!!checklist.length && (
             <div className="ml-3">
@@ -106,7 +106,7 @@ const Form = (props) => {
             </div>
           )}
           <button type="submit"
-                  className="py-2 px-5 hover:bg-blue-500 rounded-[30px] bg-blue-400 text-white mt-[10px]">{props.submitText}</button>
+                  className="py-2 px-5 hover:bg-tangerine rounded-[30px] bg-peach text-darkish-gray mt-[10px]">{props.submitText}</button>
         </form>
       </div>
     </div>

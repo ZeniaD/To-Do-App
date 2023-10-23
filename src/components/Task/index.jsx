@@ -10,35 +10,7 @@ import {
 import {faCircleCheck as faCircleOutline} from "@fortawesome/free-regular-svg-icons";
 import {useTask} from "../../contexts/TaskContext";
 import {formatDate} from "../../utils/formatDate";
-
-
-const bgColor = {
-  0: "bg-slate-200",
-  1: "bg-gray-300",
-  2: "bg-sky-200",
-  3: "bg-blue-200",
-  4: "bg-green-200",
-  5: "bg-emerald-200",
-  6: "bg-indigo-200",
-  7: "bg-amber-200",
-  8: "bg-orange-200",
-  9: "bg-pink-200",
-  10: "bg-red-200"
-}
-
-const progressColor = {
-  0: "bg-slate-800",
-  1: "bg-gray-800",
-  2: "bg-sky-800",
-  3: "bg-blue-800",
-  4: "bg-green-800",
-  5: "bg-emerald-800",
-  6: "bg-indigo-800",
-  7: "bg-amber-800",
-  8: "bg-orange-800",
-  9: "bg-pink-800",
-  10: "bg-red-800"
-}
+import {bgColor} from "../../utils//bgColor";
 
 const Task = ({task}) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -54,50 +26,56 @@ const Task = ({task}) => {
     return new Date(task.dueDate) <= futureDate;
   }
 
-  const dateIsToday = () => {
+  const dueIsToday = () => {
     const currentDate = new Date();
-    return new Date(task.dueDate) === currentDate;
+    return task.dueDate === currentDate.toISOString().split('T')[0];
   }
 
   const progress = Math.floor(( task.checklist.filter((item) => item.isCompleted === true).length / task.checklist.length) * 100);
 
   return (
-    <div className={`w-full min-h-[200px] flex flex-col rounded-[20px] border-indigo-400 border p-[15px] relative ${task.isCompleted ? "bg-emerald-100 line-through" : "bg-indigo-50"}`}>
+    <div className={`${task.isCompleted ? "before:bg-gradient-to-r before:from-peach before:to-[#ff968f] line-through" : "bg-darker-gray"} w-full min-h-[200px] flex flex-col rounded-xl p-4 relative before:content-[''] before:absolute before:h-full before:w-full before:left-0 before:top-0 before:rounded-xl before:opacity-40`}>
       <div className="relative">
-        <span className={`opacity-80 text-xs ${dateIsToday() ? "text-red-900" : "text-slate-900"}`}>{formatDate(task.dueDate)}</span>
+        <span className={`opacity-80 text-xs ${dueIsToday() ? "text-scarlet" : "text-light-gray"}`}>{formatDate(task.dueDate)}</span>
         <div className="absolute top-0 right-0">
-          <button onClick={() => handleComplete(task.id)} className="w-[25px] h-[25px] hover:scale-125 transition-all">
+          <button onClick={() => handleComplete(task.id)} className="w-[25px] h-[25px] hover:scale-125 transition-all text-white">
             {task.isCompleted ? <FontAwesomeIcon icon={faCircleCheck} />: <FontAwesomeIcon icon={faCircleOutline} />}
           </button>
-          <button onClick={toggleMenu} className="w-[25px] h-[25px]" type="button">
+          <button onClick={toggleMenu} className="w-[25px] h-[25px] text-white" type="button">
             <FontAwesomeIcon icon={faEllipsisVertical} />
           </button>
         </div>
-        <div className={`z-10 absolute top-[25px] right-0 bg-white w-[100px] rounded-[8px] p-[10px] ${showMenu ? "" : "hidden"}`}>
-          <Link to={`/task/${task.id}`} className="block w-full text-indigo-900 hover:text-indigo-700 text-left">
-            <FontAwesomeIcon className="pr-[5px]" icon={faEye}/> View
+        {showMenu && (<div className="z-10 absolute top-[25px] right-0 bg-darkish-gray w-[100px] rounded-[8px] p-[10px]">
+          <Link to={`/task/${task.id}`} className="block w-full text-lavender hover:opacity-60 text-left">
+            <FontAwesomeIcon className="pr-[5px] w-[12px]" icon={faEye}/> View
           </Link>
-          <Link to={`/task/edit/${task.id}`} className="block w-full text-blue-900 hover:text-blue-700 text-left"><FontAwesomeIcon className="pr-[5px]" icon={faPenToSquare}/> Edit</Link>
-          <button className="block w-full  text-rose-700 hover:text-rose-500 text-left" type="button" onClick={() => handleRemove(task.id)}><FontAwesomeIcon className="pr-[5px]" icon={faTrashCan}/> Delete</button>
-        </div>
+          <Link to={`/task/edit/${task.id}`}
+                className="block w-full text-royal-blue hover:opacity-60 text-left">
+            <FontAwesomeIcon className="pr-[5px] w-[12px]" icon={faPenToSquare}/> Edit</Link>
+          <button className="block w-full text-scarlet hover:opacity-60 text-left" type="button"
+                  onClick={() => handleRemove(task.id)}>
+            <FontAwesomeIcon className="pr-[5px] w-[12px]" icon={faTrashCan}/> Delete
+          </button>
+        </div>)}
       </div>
       <div className="text-center py-[15px]">
-        <Link to={`/task/${task.id}`} className="text-lg block font-semibold mb-[8px] capitalize">{task.title}</Link>
-        <span className={`text-sm text-slate-950 py-[5px] px-[8px] rounded-[20px] mr-[5px] opacity-60 ${bgColor[task.priority]}`}>Priority: {task.priority}</span>
-        <span className="text-sm text-slate-800 py-[5px] px-[8px] rounded-[20px] bg-white opacity-60">Complexity: {task.complexity}</span>
+        <Link to={`/task/${task.id}`} className="text-lg block font-semibold mb-[8px] capitalize text-white z-10 relative">{task.title}</Link>
+        <span className={`text-sm text-darker-gray py-[5px] px-[8px] rounded-[20px] mr-[5px] ${bgColor[task.priority]}`}>Priority: {task.priority}</span>
+        <span className="text-sm text-white py-[5px] px-[8px] rounded-[20px] bg-light-gray">Complexity: {task.complexity}</span>
       </div>
       {!!task.checklist.length && (<div>
-        <p>Progress</p>
-        <div className="w-full h-1 bg-white rounded-sm my-1">
-          <span className={`rounded-sm h-1 block ${progressColor[task.priority]}`}
+        <p className="text-white">Progress</p>
+        <div className="w-full h-1 relative my-1">
+          <span className={`w-full h-1 bg-white absolute right-0 top-0 rounded-sm opacity-20 ${bgColor[task.priority]}`}></span>
+          <span className={`rounded-sm h-1 block ${bgColor[task.priority]} opacity-100 relative`}
                 style={{width: `${progress}%`}}></span>
         </div>
-        <p className="float-right">{progress}%</p>
+        <p className="float-right text-white">{progress}%</p>
       </div>)}
 
       {dateIsNear() && (
           <div className="mt-auto">
-            <span className="text-sm py-[5px] px-[8px] float-right rounded-[20px] mr-[5px] text-orange-800 opacity-80">Less than 3 Days</span>
+            <span className="text-sm py-[5px] float-right rounded-[20px] text-scarlet">Less than 3 Days</span>
           </div>
       )}
     </div>

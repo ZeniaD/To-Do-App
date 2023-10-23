@@ -1,43 +1,17 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {useParams} from "react-router-dom";
 import {useTask} from "../contexts/TaskContext";
 import CheckList from "../components/CheckList";
 import {formatDate} from "../utils/formatDate";
-
-const bgColor = {
-  0: "bg-slate-200",
-  1: "bg-gray-300",
-  2: "bg-sky-200",
-  3: "bg-blue-200",
-  4: "bg-green-200",
-  5: "bg-emerald-200",
-  6: "bg-indigo-200",
-  7: "bg-amber-200",
-  8: "bg-orange-200",
-  9: "bg-pink-200",
-  10: "bg-red-200"
-}
-
-const progressColor = {
-  0: "bg-slate-800",
-  1: "bg-gray-800",
-  2: "bg-sky-800",
-  3: "bg-blue-800",
-  4: "bg-green-800",
-  5: "bg-emerald-800",
-  6: "bg-indigo-800",
-  7: "bg-amber-800",
-  8: "bg-orange-800",
-  9: "bg-pink-800",
-  10: "bg-red-800"
-}
+import {bgColor} from "../utils/bgColor";
 
 const TaskDetails = () => {
-  const {editTask, handleComplete, getTask} = useTask();
+  const {editTask, handleComplete, handleRemove, getTask} = useTask();
   const {id} = useParams();
   const task = getTask(id);
+  const navigate = useNavigate();
 
   const toggleSelect = () => {
     handleComplete(task.id);
@@ -58,45 +32,59 @@ const TaskDetails = () => {
     editTask(task.id,{checklist : [ ...newList]});
   }
 
+  const handleRemoveClick = () => {
+    handleRemove(task.id);
+    navigate("/");
+  }
+
   const progress = Math.floor(( task.checklist.filter((item) => item.isCompleted === true).length / task.checklist.length) * 100);
 
   return (
-    <div className="bg-slate-200 min-h-screen p-[30px] flex justify-center">
-      <div className="max-w-[800px] w-full mx-4 bg-white p-[20px] rounded-[20px]">
-        <div className="relative">
+    <div className="bg-dark-gray min-h-screen flex flex-col w-full p-8">
+      <div className="max-w-[800px] w-full mx-4 p-[20px] flex">
+        <div className="flex-col max-w-[50px]">
           <Link to='/'
-                className="absolute p-1 bg-slate-200 rounded-full w-[30px] h-[30px] flex justify-center items-center">
+                className="p-1 border-dashed border-peach border rounded-full w-[32px] h-[32px] inline-flex items-center justify-center text-white">
             <FontAwesomeIcon icon={faArrowLeft}/>
           </Link>
-          <h1 className="text-center text-2xl font-semibold">{task.title}</h1>
         </div>
-        <div className="text-center pt-5">
-          <span>Due Date: {formatDate(task.dueDate)}</span>
-        </div>
-
-        <div className="text-center py-5">
-          <span className={`text-sm text-slate-950 py-[5px] px-[8px] border border-transparent rounded-[20px] mr-[5px] opacity-60 ${bgColor[task.priority]}`}>Priority: {task.priority}</span>
-          <span className="text-sm text-slate-800 py-[5px] px-[8px] border border-slate-500 rounded-[20px] mr-[5px] bg-white opacity-60">Complexity: {task.complexity}</span>
-          <span className={`text-sm text-slate-800 py-[5px] px-[8px] border rounded-[20px] opacity-60 ${task.isCompleted ? "border-green-700 bg-green-100" : "border-slate-500"}`}>Status:
+        <div className="ml-4">
+          <div className="relative mb-2">
+            <h1 className="mr-24 text-2xl font-semibold text-white">{task.title}</h1>
+            <Link to={`/task/edit/${task.id}`}
+                  className="absolute right-[40px] top-0 p-1 opacity-60 hover:opacity-100 border-dashed border-royal-blue border rounded-full w-[32px] h-[32px] inline-flex items-center justify-center text-white">
+              <FontAwesomeIcon className="w-[12px]" icon={faPenToSquare}/></Link>
+            <button className="absolute right-0 top-0 p-1 opacity-60 hover:opacity-100 border-dashed border-scarlet border rounded-full w-[32px] h-[32px] inline-flex items-center justify-center text-white" type="button"
+                    onClick={handleRemoveClick}>
+              <FontAwesomeIcon className="w-[10px]" icon={faTrashCan}/>
+            </button>
+          </div>
+          <p className="text-light-gray mb-4">Due Date: {formatDate(task.dueDate)}</p>
+          <span className={`text-sm text-slate-950 py-[5px] px-[8px] border inline-block border-transparent rounded-[20px] mr-2 mb-4 ${bgColor[task.priority]}`}>Priority: {task.priority}</span>
+          <span className="text-sm text-slate-800 py-[5px] px-[8px] border inline-block border-transparent rounded-[20px] mr-2 mb-4 bg-white ">Complexity: {task.complexity}</span>
+          <span className={`text-sm py-[5px] px-[8px] border rounded-[20px] inline-block mb-4 ${task.isCompleted ? "border-fresh-green bg-fresh-green text-darkish-gray" : "border-light-gray text-light-gray"}`}>Status:
             <select className="appearance-none ml-2 focus:outline-none hover:cursor-pointer bg-transparent" onChange={toggleSelect}>
               <option value="Completed" selected={task.isCompleted}>Completed</option>
               <option value="In progress" selected={!task.isCompleted}>In Progress</option></select>
           </span>
+
+          {!!task.checklist.length && (
+            <div className="max-w-[450px]">
+              <p className="text-white">Progress</p>
+              <div className="w-full h-1 relative my-1">
+                <span className={`w-full h-1 bg-white absolute right-0 top-0 rounded-sm opacity-20 ${bgColor[task.priority]}`}></span>
+                <span className={`rounded-sm h-1 block ${bgColor[task.priority]} opacity-100 relative`}
+                      style={{width: `${progress}%`}}></span>
+              </div>
+              <p className="text-right text-white">{progress}%</p>
+              <div>
+                <CheckList checklist={task.checklist} removeChecklistItem={removeChecklistItem} completeChecklistItem={completeChecklistItem}/>
+              </div>
+            </div>
+          )}
         </div>
-        {!!task.checklist.length && (
-          <div className="max-w-[450px] mx-auto">
-            <p>Progress</p>
-            <div className="w-full h-1 bg-slate-100 rounded-sm my-1">
-              <span className={`rounded-sm h-1 block ${progressColor[task.priority]}`}
-                style={{width: `${progress}%`}}></span>
-            </div>
-            <p className="text-right">{progress}%</p>
-            <div>
-              <CheckList checklist={task.checklist} removeChecklistItem={removeChecklistItem} completeChecklistItem={completeChecklistItem}/>
-            </div>
-          </div>
-        )}
       </div>
+
     </div>
   )
 }
