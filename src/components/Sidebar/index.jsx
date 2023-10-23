@@ -15,11 +15,13 @@ const Sidebar = () => {
     const currentDate = new Date();
     if (display === "today") {
       newList = list.filter((item) => item.dueDate === currentDate.toISOString().split('T')[0])
-    } else if (display === "tomorrow") {
-      const tomorrow = new Date(currentDate);
-      tomorrow.setDate(currentDate.getDate() + 1);
-      const formattedDate = tomorrow.toISOString().slice(0, 10);
-      newList = list.filter((item) => item.dueDate === formattedDate)
+    } else if (display === "overdue") {
+      newList = list.filter((item) => item.dueDate < currentDate.toISOString().split('T')[0])
+    } else {
+      const inWeek = new Date(currentDate);
+      inWeek.setDate(currentDate.getDate() + 7);
+      const formattedDate = inWeek.toISOString().slice(0, 10);
+      newList = list.filter((item) => item.dueDate > currentDate.toISOString().split('T')[0] && item.dueDate < formattedDate)
     }
 
     return newList;
@@ -53,14 +55,14 @@ const Sidebar = () => {
           name="task-list"
           type="radio"
           className="peer relative h-5 w-5 cursor-pointer appearance-none"
-          checked={display === "tomorrow"}
-          onChange={() => handleDisplay("tomorrow")}
+          checked={display === "overdue"}
+          onChange={() => handleDisplay("overdue")}
         />
         <label
           className="mt-px border-b border-slate-300 peer-checked:border-slate-700 cursor-pointer peer-checked:text-slate-700 select-none text-gray-300"
           htmlFor="tomorrow"
         >
-          Tomorrow
+          Overdue
         </label>
       </div>
       <div className="inline-flex items-center">
@@ -86,9 +88,9 @@ const Sidebar = () => {
           <Link to={`/task/${task.id}`} key={task.id} className="p-3 m-2 border border-slate-300 bg-slate-100 rounded-2xl">
             <p>{task.title}</p>
             <div className="py-2">
-              <span className="text-sm text-slate-800 py-[5px] px-[8px] border border-slate-500 rounded-[20px] mr-[5px] bg-white opacity-60">Priority: {task.priority}</span>
-              <span className="text-sm text-slate-800 py-[5px] px-[8px] border border-slate-500 rounded-[20px] mr-[5px] bg-white opacity-60">Complexity: {task.complexity}</span>
-              <span className={`text-sm text-slate-800 py-[5px] px-[8px] border rounded-[20px] bg-white opacity-60 ${task.isCompleted ? "border-green-700 bg-green-100" : "border-slate-500"}`}>Status: {task.isCompleted ? "Completed" : "In Progress"}</span>
+              <span className="text-xs text-slate-800 py-[5px] px-[8px] border border-slate-500 rounded-[20px] mr-[5px] bg-white opacity-60">Priority: {task.priority}</span>
+              <span className="text-xs text-slate-800 py-[5px] px-[8px] border border-slate-500 rounded-[20px] mr-[5px] bg-white opacity-60">Complexity: {task.complexity}</span>
+              <span className={`text-xs text-slate-800 py-[5px] px-[8px] border rounded-[20px] opacity-60 ${task.isCompleted ? "border-green-700 bg-green-100" : "border-slate-500"}`}>Status: {task.isCompleted ? "Completed" : "In Progress"}</span>
             </div>
           </Link>
         ))}
