@@ -18,11 +18,12 @@ export const TaskProvider = ({ children }) => {
   const editTask = (id, item) => {
     const newList = tasks.map((element) => {
       if (element.id === id) {
-        return { ...element, ...item };
+        for (const [key, value] of Object.entries(item)) {
+          element[key] = value;
+        }
       }
       return element;
     });
-
     setTasks(newList);
   }
 
@@ -42,8 +43,12 @@ export const TaskProvider = ({ children }) => {
     setTasks(newList);
   }
 
+  const getTask = (id) => {
+    return tasks.find((task) => task.id === id);
+  }
+
   return (
-    <TaskContext.Provider value={{tasks, addTask, editTask, handleComplete, handleRemove}}>
+    <TaskContext.Provider value={{tasks, addTask, editTask, handleComplete, handleRemove,getTask}}>
       {children}
     </TaskContext.Provider>
   );

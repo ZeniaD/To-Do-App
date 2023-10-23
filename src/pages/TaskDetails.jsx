@@ -35,19 +35,17 @@ const progressColor = {
 }
 
 const TaskDetails = () => {
-  const {tasks,editTask} = useTask();
+  const {editTask, handleComplete, getTask} = useTask();
   const {id} = useParams();
-  const task = tasks.find((task) => task.id === id);
+  const task = getTask(id);
 
   const toggleSelect = () => {
-    task.isCompleted = !task.isCompleted;
-    editTask(task.id,task);
+    handleComplete(task.id);
   }
 
   const removeChecklistItem = (id) => {
     const newList = task.checklist.filter((item) => item.id !== id);
-    task.checklist = [...newList];
-    editTask(task.id,task);
+    editTask(task.id, {checklist : [ ...newList]});
   }
 
   const completeChecklistItem = (id) => {
@@ -57,9 +55,7 @@ const TaskDetails = () => {
       }
       return element;
     });
-
-    task.checklist = [...newList];
-    editTask(task.id,task);
+    editTask(task.id,{checklist : [ ...newList]});
   }
 
   const progress = Math.floor(( task.checklist.filter((item) => item.isCompleted === true).length / task.checklist.length) * 100);
@@ -81,7 +77,7 @@ const TaskDetails = () => {
         <div className="text-center py-5">
           <span className={`text-sm text-slate-950 py-[5px] px-[8px] border border-transparent rounded-[20px] mr-[5px] opacity-60 ${bgColor[task.priority]}`}>Priority: {task.priority}</span>
           <span className="text-sm text-slate-800 py-[5px] px-[8px] border border-slate-500 rounded-[20px] mr-[5px] bg-white opacity-60">Complexity: {task.complexity}</span>
-          <span className={`text-sm text-slate-800 py-[5px] px-[8px] border rounded-[20px] bg-white opacity-60 ${task.isCompleted ? "border-green-700 bg-green-100" : "border-slate-500"}`}>Status:
+          <span className={`text-sm text-slate-800 py-[5px] px-[8px] border rounded-[20px] opacity-60 ${task.isCompleted ? "border-green-700 bg-green-100" : "border-slate-500"}`}>Status:
             <select className="appearance-none ml-2 focus:outline-none hover:cursor-pointer bg-transparent" onChange={toggleSelect}>
               <option value="Completed" selected={task.isCompleted}>Completed</option>
               <option value="In progress" selected={!task.isCompleted}>In Progress</option></select>

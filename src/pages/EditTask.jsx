@@ -3,9 +3,9 @@ import {useTask} from "../contexts/TaskContext";
 import Form from "../components/Form";
 
 const EditTask = () => {
-  const {tasks, editTask} = useTask();
+  const {editTask, getTask} = useTask();
   const {id} = useParams();
-  const task = tasks.find((task) => task.id === id);
+  const task = getTask(id);
 
   const handleSubmit = (item) => {
     editTask(id,item);
