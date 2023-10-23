@@ -5,6 +5,7 @@ import {faAngleDown, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {useTask} from "../contexts/TaskContext";
 import Task from "../components/Task";
 import SortDropdown from "../components/SortDropdown";
+import Sidebar from "../components/Sidebar";
 
 const Home = () => {
   const [sort, setSort] = useState({ order: "Default", sortBy: "priority"});
@@ -45,7 +46,7 @@ const Home = () => {
         <input placeholder="Search" className="p-[10px] rounded-[20px] shadow-md w-[350px]" onChange={(e) => setSearchValue(e.target.value)}/>
       </div>
       <div className="flex gap-[30px] grow h-full">
-        <div className="w-[60%] bg-white p-[20px] rounded-[20px]">
+        <div className="w-[70%] bg-white p-[20px] rounded-[20px]">
           <div className="relative flex gap-[10px]">
             <button onClick={toggleMenu}
                     className="px-[5px] py-1 min-w-[100px] text-center rounded-md border border-slate-400 hover:border-slate-600 hover:text-slate-600 text-slate-500 flex items-center justify-between"
@@ -68,7 +69,9 @@ const Home = () => {
             ))}
           </div>)}
         </div>
-        <div className="w-[40%] bg-white p-[20px] rounded-[20px]"></div>
+        <div className="w-[30%] min-w-[450px] bg-white p-[20px] rounded-[20px]">
+          <Sidebar />
+        </div>
       </div>
     </div>
   )

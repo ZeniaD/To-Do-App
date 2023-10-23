@@ -1,20 +1,16 @@
 import {useState} from "react";
+import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
   faCircleCheck,
-  faEllipsisVertical,
+  faEllipsisVertical, faEye,
   faPenToSquare,
   faTrashCan
 } from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck as faCircleOutline} from "@fortawesome/free-regular-svg-icons";
 import {useTask} from "../../contexts/TaskContext";
-import {Link} from "react-router-dom";
+import {formatDate} from "../../utils/formatDate";
 
-const formatDate = (date) => {
-  const dateArr = date.split("-");
-  const d = new Date(dateArr[0], dateArr[1]-1, dateArr[2]);
-  return d.toLocaleDateString('en-us', { day:"numeric", year:"numeric", month:"long"});
-}
 
 const bgColor = {
   0: "bg-slate-200",
@@ -73,17 +69,20 @@ const Task = ({task}) => {
           <button onClick={() => handleComplete(task.id)} className="w-[25px] h-[25px] hover:scale-125 transition-all">
             {task.isCompleted ? <FontAwesomeIcon icon={faCircleCheck} />: <FontAwesomeIcon icon={faCircleOutline} />}
           </button>
-          <button onClick={toggleMenu} className="w-[25px] h-[25px] hover:scale-125 transition-all" type="button">
+          <button onClick={toggleMenu} className="w-[25px] h-[25px]" type="button">
             <FontAwesomeIcon icon={faEllipsisVertical} />
           </button>
         </div>
         <div className={`z-10 absolute top-[25px] right-0 bg-white w-[100px] rounded-[8px] p-[10px] ${showMenu ? "" : "hidden"}`}>
+          <Link to={`/task/${task.id}`} className="block w-full text-indigo-900 hover:text-indigo-700 text-left">
+            <FontAwesomeIcon className="pr-[5px]" icon={faEye}/> View
+          </Link>
           <Link to={`/task/edit/${task.id}`} className="block w-full text-blue-900 hover:text-blue-700 text-left"><FontAwesomeIcon className="pr-[5px]" icon={faPenToSquare}/> Edit</Link>
           <button className="block w-full  text-rose-700 hover:text-rose-500 text-left" type="button" onClick={() => handleRemove(task.id)}><FontAwesomeIcon className="pr-[5px]" icon={faTrashCan}/> Delete</button>
         </div>
       </div>
       <div className="text-center py-[15px]">
-        <p className="text-lg font-semibold mb-[8px] capitalize">{task.title}</p>
+        <Link to={`/task/${task.id}`} className="text-lg block font-semibold mb-[8px] capitalize">{task.title}</Link>
         <span className={`text-sm text-slate-950 py-[5px] px-[8px] rounded-[20px] mr-[5px] opacity-60 ${bgColor[task.priority]}`}>Priority: {task.priority}</span>
         <span className="text-sm text-slate-800 py-[5px] px-[8px] rounded-[20px] bg-white opacity-60">Complexity: {task.complexity}</span>
       </div>

@@ -29,9 +29,10 @@ const Form = (props) => {
 
     props.handleSubmit(item);
     setTitle("");
-    setPriority(0)
-    setComplexity(0)
-    setDueDate(0)
+    setPriority(0);
+    setComplexity(0);
+    setDueDate(0);
+    setChecklist([]);
     navigate("/");
   };
 
@@ -69,7 +70,7 @@ const Form = (props) => {
 
   return (
     <div className="bg-slate-200 min-h-screen p-[30px] flex justify-center">
-      <div className="min-w-[50%] bg-white p-[20px] rounded-[20px]">
+      <div className="max-w-[800px] w-full mx-4 bg-white p-[20px] rounded-[20px]">
         <div className="relative">
           <Link to='/'
                 className="absolute p-1 bg-slate-200 rounded-full w-[30px] h-[30px] flex justify-center items-center">
@@ -99,7 +100,11 @@ const Form = (props) => {
                  onChange={(e) => setDueDate(e.target.value)}
                  className="p-[10px] focus:outline-none rounded-[30px] border border-slate-600 min-w-full leading-5 flex items-center"/>
           <ListForm handleSubmit={handleChecklistSubmit}/>
-          {!!checklist.length && <CheckList checklist={checklist} removeChecklistItem={removeChecklistItem} completeChecklistItem={completeChecklistItem}/>}
+          {!!checklist.length && (
+            <div className="ml-3">
+              <CheckList checklist={checklist} removeChecklistItem={removeChecklistItem} completeChecklistItem={completeChecklistItem}/>
+            </div>
+          )}
           <button type="submit"
                   className="py-2 px-5 hover:bg-blue-500 rounded-[30px] bg-blue-400 text-white mt-[10px]">{props.submitText}</button>
         </form>

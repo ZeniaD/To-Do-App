@@ -3,6 +3,7 @@ import {TaskProvider} from "./contexts/TaskContext";
 import Home from "./pages/Home.jsx";
 import AddTask from "./pages/AddTask";
 import EditTask from "./pages/EditTask";
+import TaskDetails from "./pages/TaskDetails";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <TaskProvider>
         <Routes>
           <Route exact path="/" element={<Home/>}/>
+          <Route path="/task/:id" element={<TaskDetails/>}/>
           <Route path="/task/add" element={<AddTask/>}/>
           <Route path="/task/edit/:id" element={<EditTask/>}/>
         </Routes>
