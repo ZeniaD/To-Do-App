@@ -2,10 +2,8 @@ import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useParams} from "react-router-dom";
-import {uid} from "uid";
 import {useTask} from "../contexts/TaskContext";
 import CheckList from "../components/CheckList";
-import ListForm from "../components/ListForm";
 import {formatDate} from "../utils/formatDate";
 
 const bgColor = {
