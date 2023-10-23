@@ -11,7 +11,7 @@ const Sidebar = () => {
   }
 
   const getFilteredList = (list) => {
-    let newList = tasks;
+    let newList;
     const currentDate = new Date();
     if (display === "today") {
       newList = list.filter((item) => item.dueDate === currentDate.toISOString().split('T')[0])
