@@ -48,7 +48,7 @@ const TaskDetails = () => {
             <FontAwesomeIcon icon={faArrowLeft}/>
           </Link>
         </div>
-        <div className="ml-4">
+        <div className="ml-4 min-w-[450px]">
           <div className="relative mb-2">
             <h1 className="mr-24 text-2xl font-semibold text-white">{task.title}</h1>
             <Link to={`/task/edit/${task.id}`}
@@ -72,11 +72,11 @@ const TaskDetails = () => {
             <div className="max-w-[450px]">
               <p className="text-white">Progress</p>
               <div className="w-full h-1 relative my-1">
-                <span className={`w-full h-1 bg-white absolute right-0 top-0 rounded-sm opacity-20 ${bgColor[task.priority]}`}></span>
+                <span className={`w-full h-1 absolute right-0 top-0 rounded-sm opacity-20 ${bgColor[task.priority]}`}></span>
                 <span className={`rounded-sm h-1 block ${bgColor[task.priority]} opacity-100 relative`}
                       style={{width: `${progress}%`}}></span>
               </div>
-              <p className="text-right text-white">{progress}%</p>
+              <p className="text-right text-white mb-4">{progress}%</p>
               <div>
                 <CheckList checklist={task.checklist} removeChecklistItem={removeChecklistItem} completeChecklistItem={completeChecklistItem}/>
               </div>

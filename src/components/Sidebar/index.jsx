@@ -29,8 +29,7 @@ const Sidebar = () => {
     return newList;
   }
 
-
-  const filteredList = getFilteredList(tasks);
+  const filteredList = getFilteredList(tasks).sort((a, b) => a.isCompleted - b.isCompleted);
 
   return (
     <div className="w-[30%] max-w-[300px] min-w-[300px] py-8 px-4 bg-darker-gray">

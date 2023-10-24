@@ -34,7 +34,7 @@ const Task = ({task}) => {
   const progress = Math.floor(( task.checklist.filter((item) => item.isCompleted === true).length / task.checklist.length) * 100);
 
   return (
-    <div className={`${task.isCompleted ? "before:bg-gradient-to-r before:from-peach before:to-[#ff968f] line-through" : "bg-darker-gray"} w-full min-h-[200px] flex flex-col rounded-xl p-4 relative before:content-[''] before:absolute before:h-full before:w-full before:left-0 before:top-0 before:rounded-xl before:opacity-40`}>
+    <div className={`${task.isCompleted ? "before:bg-gradient-to-r before:from-peach before:to-[#ff968f] line-through" : "bg-darker-gray"} w-full min-h-[200px] flex flex-col rounded-xl p-4 relative before:content-[''] before:absolute before:h-full before:w-full before:left-0 before:top-0 before:rounded-xl before:opacity-20`}>
       <div className="relative">
         <span className={`opacity-80 text-xs ${dueIsToday() ? "text-scarlet" : "text-light-gray"}`}>{formatDate(task.dueDate)}</span>
         <div className="absolute top-0 right-0">
@@ -46,13 +46,13 @@ const Task = ({task}) => {
           </button>
         </div>
         {showMenu && (<div className="z-10 absolute top-[25px] right-0 bg-darkish-gray w-[100px] rounded-[8px] p-[10px]">
-          <Link to={`/task/${task.id}`} className="block w-full text-lavender hover:opacity-60 text-left">
+          <Link to={`/task/${task.id}`} className="block w-full text-lavender opacity-80 hover:opacity-100 text-left">
             <FontAwesomeIcon className="pr-[5px] w-[12px]" icon={faEye}/> View
           </Link>
           <Link to={`/task/edit/${task.id}`}
-                className="block w-full text-royal-blue hover:opacity-60 text-left">
+                className="block w-full text-royal-blue opacity-80 hover:opacity-100 text-left">
             <FontAwesomeIcon className="pr-[5px] w-[12px]" icon={faPenToSquare}/> Edit</Link>
-          <button className="block w-full text-scarlet hover:opacity-60 text-left" type="button"
+          <button className="block w-full text-scarlet opacity-80 hover:opacity-100 text-left" type="button"
                   onClick={() => handleRemove(task.id)}>
             <FontAwesomeIcon className="pr-[5px] w-[12px]" icon={faTrashCan}/> Delete
           </button>
@@ -66,7 +66,7 @@ const Task = ({task}) => {
       {!!task.checklist.length && (<div>
         <p className="text-white">Progress</p>
         <div className="w-full h-1 relative my-1">
-          <span className={`w-full h-1 bg-white absolute right-0 top-0 rounded-sm opacity-20 ${bgColor[task.priority]}`}></span>
+          <span className={`w-full h-1 absolute right-0 top-0 rounded-sm opacity-20 ${bgColor[task.priority]}`}></span>
           <span className={`rounded-sm h-1 block ${bgColor[task.priority]} opacity-100 relative`}
                 style={{width: `${progress}%`}}></span>
         </div>

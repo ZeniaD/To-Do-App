@@ -7,8 +7,21 @@ export function useTask() {
   return useContext(TaskContext);
 }
 
+function useLocalState(key, initialValue) {
+  const storedValue = window.localStorage.getItem(key);
+  const item = storedValue ? JSON.parse(storedValue) : initialValue;
+  const [state, setState] = useState(item);
+
+  const updateState = (value) => {
+    window.localStorage.setItem(key, JSON.stringify(value));
+    setState(value);
+  };
+
+  return [state, updateState];
+}
+
 export const TaskProvider = ({ children }) => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useLocalState('tasks', []);
 
   const addTask = (item) => {
     const newTasks = [...tasks, { ...item, isCompleted: false, id: uid() }];
