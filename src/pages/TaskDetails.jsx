@@ -38,6 +38,10 @@ const TaskDetails = () => {
   }
 
   const progress = Math.floor(( task.checklist.filter((item) => item.isCompleted === true).length / task.checklist.length) * 100);
+  const hasDate = !!task.dueDate;
+  const hasPriority = !!task.priority;
+  const hasComplexity = !!task.complexity;
+  const hasChecklist = !!task.checklist.length;
 
   return (
     <div className="bg-dark-gray min-h-screen flex flex-col w-full p-8">
@@ -59,16 +63,18 @@ const TaskDetails = () => {
               <FontAwesomeIcon className="w-[10px]" icon={faTrashCan}/>
             </button>
           </div>
-          <p className="text-light-gray mb-4">Due Date: {formatDate(task.dueDate)}</p>
-          <span className={`text-sm text-slate-950 py-[5px] px-[8px] border inline-block border-transparent rounded-[20px] mr-2 mb-4 ${bgColor[task.priority]}`}>Priority: {task.priority}</span>
-          <span className="text-sm text-slate-800 py-[5px] px-[8px] border inline-block border-transparent rounded-[20px] mr-2 mb-4 bg-white ">Complexity: {task.complexity}</span>
+          {hasDate && <p className="text-light-gray mb-4">Due Date: {formatDate(task.dueDate)}</p>}
+          {hasPriority && <span
+            className={`text-sm text-slate-950 py-[5px] px-[8px] border inline-block border-transparent rounded-[20px] mr-2 mb-4 ${bgColor[task.priority]}`}>Priority: {task.priority}</span>}
+          {hasComplexity && <span
+            className="text-sm text-slate-800 py-[5px] px-[8px] border inline-block border-transparent rounded-[20px] mr-2 mb-4 bg-white ">Complexity: {task.complexity}</span>}
           <span className={`text-sm py-[5px] px-[8px] border rounded-[20px] inline-block mb-4 ${task.isCompleted ? "border-fresh-green bg-fresh-green text-darkish-gray" : "border-light-gray text-light-gray"}`}>Status:
             <select className="appearance-none ml-2 focus:outline-none hover:cursor-pointer bg-transparent" onChange={toggleSelect}>
               <option value="Completed" selected={task.isCompleted}>Completed</option>
               <option value="In progress" selected={!task.isCompleted}>In Progress</option></select>
           </span>
 
-          {!!task.checklist.length && (
+          {hasChecklist && (
             <div className="max-w-[450px]">
               <p className="text-white">Progress</p>
               <div className="w-full h-1 relative my-1">

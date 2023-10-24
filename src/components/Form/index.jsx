@@ -9,6 +9,7 @@ import CheckList from "../CheckList";
 
 const Form = (props) => {
   const [title, setTitle] = useState(props.task ? props.task.title : "");
+  const [hasInvalidTitle, setHasInvalidTitle] = useState(false);
   const [priority, setPriority] = useState(props.task ? props.task.priority : 0);
   const [complexity, setComplexity] = useState(props.task ? props.task.complexity : 0);
   const [dueDate, setDueDate] = useState(props.task ? props.task.dueDate : 0);
@@ -17,7 +18,13 @@ const Form = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title) return;
+    if (!title) {
+      setHasInvalidTitle(true);
+      setTimeout(() => {
+        setHasInvalidTitle(false);
+      }, 5000);
+      return;
+    }
 
     const item = {
       title,
@@ -85,6 +92,7 @@ const Form = (props) => {
                  value={title}
                  onChange={(e) => setTitle(e.target.value)}
                  className="block p-[10px] focus:outline-none bg-darkish-gray rounded-lg min-w-full text-soft-silver"/>
+          {hasInvalidTitle && <p className="text-sm text-scarlet pt-2">Please add a Task Name</p>}
           <h3 className="pt-[10px] pb-[10px] text-white">Select Priority:</h3>
           <div className="flex gap-[5px] max-w-[400px] h-8">
             <SelectButtons handleChange={handlePriorityChange} value={priority} property="priority"/>
