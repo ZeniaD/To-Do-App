@@ -7,12 +7,12 @@ const ListForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (value === "") return;
-    props.handleSubmit(value)
-    setValue("")
+    if (!value) return;
+    props.handleSubmit(value);
+    setValue("");
   }
 
-  const handleChecklistKeyPress = (e) => {
+  const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleSubmit(e);
     }
@@ -20,13 +20,13 @@ const ListForm = (props) => {
 
   return (
     <>
-      <label htmlFor="task-checklist"
-             className="pt-[10px] pb-[10px] block text-white">Subtasks</label>
+      <label htmlFor={props.id}
+             className="pt-[10px] pb-[10px] block text-white">{props.title}</label>
       <div className="flex items-center">
-      <input id="task-checklist" type="text" placeholder="Add Subtask"
+      <input id={props.id} type="text" placeholder={`Add ${props.title}`}
              value={value}
              onChange={(e) => setValue(e.target.value)}
-             onKeyPress={handleChecklistKeyPress}
+             onKeyPress={handleKeyPress}
              className="block p-[10px] focus:outline-none rounded-lg bg-darkish-gray text-soft-silver w-full"/>
         <button onClick={handleSubmit} className="top-[8px] ml-3 p-1 border-peach border-dashed border rounded-full w-[30px] h-[30px] flex justify-center items-center text-white"><FontAwesomeIcon icon={faPlus}/></button>
       </div>

@@ -11,6 +11,7 @@ import {faCircleCheck as faCircleOutline} from "@fortawesome/free-regular-svg-ic
 import {useTask} from "../../contexts/TaskContext";
 import {formatDate} from "../../utils/formatDate";
 import {bgColor} from "../../utils//bgColor";
+import {getTagBg} from "../../utils/tagBg";
 
 const Task = ({task}) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -39,7 +40,7 @@ const Task = ({task}) => {
 
   return (
     <div
-      className={`${task.isCompleted ? "bg-[#3c3428]" : "bg-darker-gray"} w-full min-h-[200px] flex flex-col rounded-xl p-4 `}>
+      className={`${task.isCompleted ? "bg-[#3c3428] line-through" : "bg-darker-gray"} w-full min-h-[200px] flex flex-col rounded-xl p-4 `}>
       <div className="flex relative">
         {hasDate && <span
           className={`opacity-80 text-xs ${dueIsToday() ? "text-scarlet" : "text-light-gray"}`}>{formatDate(task.dueDate)}</span>}
@@ -83,11 +84,12 @@ const Task = ({task}) => {
         </div>
         <p className="float-right text-white">{progress}%</p>
       </div>)}
-      {hasDate && dateIsNear() && (
-        <div className="mt-auto">
-          <span className="text-sm py-[5px] float-right rounded-[20px] text-scarlet">Less than 3 Days</span>
+      <div className="flex mt-auto justify-between items-end">
+        <div>
+          {task.tags && task.tags.map((tag,index) => <p key={tag.id} className={`${getTagBg(index+1)} inline-block px-3 mr-2 mb-2 text-darkish-gray rounded-2xl`}>{tag.title}</p>)}
         </div>
-      )}
+        {hasDate && dateIsNear() && <span className="text-sm py-[5px] float-right rounded-[20px] text-scarlet min-w-[110px]">Less than 3 Days</span>}
+      </div>
     </div>
   )
 }

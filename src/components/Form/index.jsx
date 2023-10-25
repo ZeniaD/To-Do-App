@@ -1,7 +1,7 @@
+import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {Link, useNavigate} from "react-router-dom";
-import {useState} from "react";
 import {uid} from "uid";
 import ListForm from "../ListForm"
 import SelectButtons from "../SelectButtons";
@@ -14,6 +14,8 @@ const Form = (props) => {
   const [complexity, setComplexity] = useState(props.task ? props.task.complexity : 0);
   const [dueDate, setDueDate] = useState(props.task ? props.task.dueDate : 0);
   const [checklist, setChecklist] = useState(props.task ? props.task.checklist : []);
+  const [tags, setTags] = useState(props.task ? props.task.tags : []);
+  const [isInvalidTag, setIsInvalidTag] = useState(null)
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -23,7 +25,7 @@ const Form = (props) => {
       setTimeout(() => {
         setHasInvalidTitle(false);
       }, 5000);
-      return;
+      return
     }
 
     const item = {
@@ -31,15 +33,11 @@ const Form = (props) => {
       priority,
       complexity,
       checklist,
+      tags,
       dueDate
     }
 
     props.handleSubmit(item);
-    setTitle("");
-    setPriority(0);
-    setComplexity(0);
-    setDueDate(0);
-    setChecklist([]);
     navigate("/");
   };
 
@@ -49,7 +47,23 @@ const Form = (props) => {
       isCompleted: false,
       id: uid()
     }]
-    setChecklist(newList)
+    setChecklist(newList);
+  }
+
+  const handleTagsSubmit = (value) => {
+    if (tags.find((tag) => tag.title === value)) {
+      setIsInvalidTag(value);
+      setTimeout(() => {
+        setIsInvalidTag(null);
+      }, 3000);
+      return
+    }
+
+    const newList = [...tags, {
+      title: value,
+      id: uid()
+    }]
+    setTags(newList);
   }
 
   const completeChecklistItem = (id) => {
@@ -59,7 +73,7 @@ const Form = (props) => {
       }
       return element;
     });
-    setChecklist(newList)
+    setChecklist(newList);
   }
 
   const removeChecklistItem = (id) => {
@@ -68,11 +82,11 @@ const Form = (props) => {
   }
 
   const handlePriorityChange = (value) => {
-    setPriority(value)
+    setPriority(value);
   }
 
   const handleComplexityChange = (value) => {
-    setComplexity(value)
+    setComplexity(value);
   }
 
   return (
@@ -107,12 +121,19 @@ const Form = (props) => {
                  value={dueDate}
                  onChange={(e) => setDueDate(e.target.value)}
                  className="p-[10px] focus:outline-none rounded-lg border-slate-600 bg-darkish-gray min-w-full leading-5 flex items-center text-soft-silver"/>
-          <ListForm handleSubmit={handleChecklistSubmit}/>
+          <ListForm handleSubmit={handleChecklistSubmit} id="task-checklist" title="Subtasks"/>
           {!!checklist.length && (
             <div className="ml-3">
               <CheckList checklist={checklist} removeChecklistItem={removeChecklistItem} completeChecklistItem={completeChecklistItem}/>
             </div>
           )}
+
+          <ListForm handleSubmit={handleTagsSubmit} id="task-tags" title="Tags"/>
+          {isInvalidTag && <p className="text-sm text-scarlet pt-2">{isInvalidTag} already added</p>}
+          {!!tags.length && (<div className="mt-3">
+            {tags.map((tag) => <p key={tag.id}
+                                        className="inline-block px-3 mr-3 bg-peach text-darkish-gray rounded-2xl">{tag.title}</p>)}
+          </div>)}
           <button type="submit"
                   className="py-2 px-5 hover:bg-tangerine rounded-[30px] bg-peach text-darkish-gray mt-[10px]">{props.submitText}</button>
         </form>
