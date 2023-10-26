@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {Link, useNavigate} from "react-router-dom";
 import {uid} from "uid";
 import ListForm from "../ListForm"
@@ -81,6 +81,11 @@ const Form = (props) => {
     setChecklist(newList);
   }
 
+  const removeTag = (id) => {
+    const newList = tags.filter((item) => item.id !== id);
+    setTags(newList);
+  }
+
   const handlePriorityChange = (value) => {
     setPriority(value);
   }
@@ -100,42 +105,46 @@ const Form = (props) => {
           <h1 className="text-center text-2xl font-semibold text-white">{props.title}</h1>
         </div>
         <form className="pt-[20px] pb-[20px]" onSubmit={handleSubmit}>
-          <label htmlFor="task-name" className="pt-[10px] pb-[10px] block text-white">Task
+          <label htmlFor="task-name" className="pt-2 pb-2 block text-white">Task
             Name</label>
           <input id="task-name" type="text" placeholder="Add Task..."
                  value={title}
                  onChange={(e) => setTitle(e.target.value)}
-                 className="block p-[10px] focus:outline-none bg-darkish-gray rounded-lg min-w-full text-soft-silver"/>
+                 className="block p-2 focus:outline-none bg-darkish-gray rounded-lg min-w-full text-soft-silver"/>
           {hasInvalidTitle && <p className="text-sm text-scarlet pt-2">Please add a Task Name</p>}
-          <h3 className="pt-[10px] pb-[10px] text-white">Select Priority:</h3>
+          <h3 className="pt-2 pb-2 text-white">Select Priority:</h3>
           <div className="flex gap-[5px] max-w-[400px] h-8">
             <SelectButtons handleChange={handlePriorityChange} value={priority} property="priority"/>
           </div>
-          <h3 className="pt-[10px] pb-[10px] text-white">Select Complexity:</h3>
+          <h3 className="pt-2 pb-2 text-white">Select Complexity:</h3>
           <div className="flex gap-[5px] max-w-[400px] h-8">
             <SelectButtons handleChange={handleComplexityChange} value={complexity} property="complexity"/>
           </div>
-          <label htmlFor="task-date" className="pt-[10px] pb-[10px] block text-white">Due
+          <label htmlFor="task-date" className="pt-2 pb-2 block text-white">Due
             Date:</label>
           <input id="task-date" type="date"
                  value={dueDate}
                  onChange={(e) => setDueDate(e.target.value)}
-                 className="p-[10px] focus:outline-none rounded-lg border-slate-600 bg-darkish-gray min-w-full leading-5 flex items-center text-soft-silver"/>
+                 className="p-2 focus:outline-none rounded-lg border-slate-600 bg-darkish-gray min-w-full leading-5 flex items-center text-soft-silver"/>
           <ListForm handleSubmit={handleChecklistSubmit} id="task-checklist" title="Subtasks"/>
-          {!!checklist.length && (
+          {!!checklist && (
             <div className="ml-3">
               <CheckList checklist={checklist} removeChecklistItem={removeChecklistItem} completeChecklistItem={completeChecklistItem}/>
             </div>
           )}
-
           <ListForm handleSubmit={handleTagsSubmit} id="task-tags" title="Tags"/>
           {isInvalidTag && <p className="text-sm text-scarlet pt-2">{isInvalidTag} already added</p>}
-          {!!tags.length && (<div className="mt-3">
-            {tags.map((tag) => <p key={tag.id}
-                                        className="inline-block px-3 mr-3 bg-peach text-darkish-gray rounded-2xl">{tag.title}</p>)}
+          {!!tags && (<div className="mt-3">
+            {tags.map((tag) =>
+              <p key={tag.id} className="inline-flex items-center pl-3 pr-1 mr-3 bg-peach text-darkish-gray rounded-2xl">{tag.title}
+                <button onClick={() => removeTag(tag.id)}
+                        className="p-1 hover:bg-scarlet ml-2 rounded-full w-[17px] h-[17px] flex justify-center items-center hover:cursor-pointer">
+                <FontAwesomeIcon icon={faXmark} className="w-[10px]"/>
+              </button></p>
+            )}
           </div>)}
           <button type="submit"
-                  className="py-2 px-5 hover:bg-tangerine rounded-[30px] bg-peach text-darkish-gray mt-[10px]">{props.submitText}</button>
+                  className="py-2 px-5 hover:bg-tangerine rounded-[30px] bg-peach text-darkish-gray mt-2">{props.submitText}</button>
         </form>
       </div>
     </div>

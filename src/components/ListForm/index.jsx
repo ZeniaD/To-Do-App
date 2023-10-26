@@ -21,13 +21,13 @@ const ListForm = (props) => {
   return (
     <>
       <label htmlFor={props.id}
-             className="pt-[10px] pb-[10px] block text-white">{props.title}</label>
+             className="pt-2 pb-2 block text-white">{props.title}</label>
       <div className="flex items-center">
       <input id={props.id} type="text" placeholder={`Add ${props.title}`}
              value={value}
              onChange={(e) => setValue(e.target.value)}
              onKeyPress={handleKeyPress}
-             className="block p-[10px] focus:outline-none rounded-lg bg-darkish-gray text-soft-silver w-full"/>
+             className="block p-2 focus:outline-none rounded-lg bg-darkish-gray text-soft-silver w-full"/>
         <button onClick={handleSubmit} className="top-[8px] ml-3 p-1 border-peach border-dashed border rounded-full w-[30px] h-[30px] flex justify-center items-center text-white"><FontAwesomeIcon icon={faPlus}/></button>
       </div>
     </>
