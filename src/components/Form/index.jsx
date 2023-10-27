@@ -2,6 +2,7 @@ import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {Link, useNavigate} from "react-router-dom";
+import {motion} from "framer-motion";
 import {uid} from "uid";
 import ListForm from "../ListForm"
 import SelectButtons from "../SelectButtons";
@@ -96,7 +97,8 @@ const Form = (props) => {
 
   return (
     <div className="bg-dark-gray min-h-screen flex flex-col w-full p-8">
-      <div className="max-w-[800px] w-full">
+      <motion.div initial={{opacity: 0}} animate={{opacity: 1}}
+                  transition={{duration: .8}} className="max-w-[800px] w-full">
         <div className="relative">
           <Link to='/'
                 className="absolute p-1 border-dashed border-peach border rounded-full w-[32px] h-[32px] inline-flex items-center justify-center text-white">
@@ -112,41 +114,43 @@ const Form = (props) => {
                  onChange={(e) => setTitle(e.target.value)}
                  className="block p-2 focus:outline-none bg-darkish-gray rounded-lg min-w-full text-soft-silver"/>
           {hasInvalidTitle && <p className="text-sm text-scarlet pt-2">Please add a Task Name</p>}
-          <h3 className="pt-2 pb-2 text-white">Select Priority:</h3>
+          <h3 className="pt-2 pb-2 text-white mt-2">Select Priority:</h3>
           <div className="flex gap-[5px] max-w-[400px] h-8">
             <SelectButtons handleChange={handlePriorityChange} value={priority} property="priority"/>
           </div>
-          <h3 className="pt-2 pb-2 text-white">Select Complexity:</h3>
+          <h3 className="pt-2 pb-2 text-white mt-2">Select Complexity:</h3>
           <div className="flex gap-[5px] max-w-[400px] h-8">
             <SelectButtons handleChange={handleComplexityChange} value={complexity} property="complexity"/>
           </div>
-          <label htmlFor="task-date" className="pt-2 pb-2 block text-white">Due
-            Date:</label>
+          <label htmlFor="task-date" className="pt-2 pb-2 block text-white mt-2">Due Date:</label>
           <input id="task-date" type="date"
                  value={dueDate}
                  onChange={(e) => setDueDate(e.target.value)}
                  className="p-2 focus:outline-none rounded-lg border-slate-600 bg-darkish-gray min-w-full leading-5 flex items-center text-soft-silver"/>
           <ListForm handleSubmit={handleChecklistSubmit} id="task-checklist" title="Subtasks"/>
           {!!checklist && (
-            <div className="ml-3">
-              <CheckList checklist={checklist} removeChecklistItem={removeChecklistItem} completeChecklistItem={completeChecklistItem}/>
+            <div className="ml-3 mr-10">
+              <CheckList checklist={checklist} removeChecklistItem={removeChecklistItem}
+                         completeChecklistItem={completeChecklistItem}/>
             </div>
           )}
           <ListForm handleSubmit={handleTagsSubmit} id="task-tags" title="Tags"/>
           {isInvalidTag && <p className="text-sm text-scarlet pt-2">{isInvalidTag} already added</p>}
           {!!tags && (<div className="mt-3">
             {tags.map((tag) =>
-              <p key={tag.id} className="inline-flex items-center pl-3 pr-1 mr-3 bg-peach text-darkish-gray rounded-2xl">{tag.title}
+              <p key={tag.id}
+                 className="inline-flex items-center pl-3 pr-1 mr-3 bg-peach text-darkish-gray rounded-2xl">{tag.title}
                 <button onClick={() => removeTag(tag.id)}
                         className="p-1 hover:bg-scarlet ml-2 rounded-full w-[17px] h-[17px] flex justify-center items-center hover:cursor-pointer">
-                <FontAwesomeIcon icon={faXmark} className="w-[10px]"/>
-              </button></p>
+                  <FontAwesomeIcon icon={faXmark} className="w-[10px]"/>
+                </button>
+              </p>
             )}
           </div>)}
           <button type="submit"
                   className="py-2 px-5 hover:bg-tangerine rounded-[30px] bg-peach text-darkish-gray mt-8">{props.submitText}</button>
         </form>
-      </div>
+      </motion.div>
     </div>
   )
 

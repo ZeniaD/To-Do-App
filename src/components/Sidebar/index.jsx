@@ -1,8 +1,9 @@
 import {useState} from "react";
 import {Link} from "react-router-dom";
+import {motion} from "framer-motion";
 import {useTask} from "../../contexts/TaskContext";
 import {bgColor} from "../../utils/bgColor"
-import DisplayTab from "../DisplayTab/index.jsx";
+import DisplayTab from "../DisplayTab";
 
 const Sidebar = () => {
   const [display, setDisplay] = useState("Today");
@@ -40,13 +41,20 @@ const Sidebar = () => {
       </div>
       <div className="flex flex-col">
         {!filteredList.length && <h2 className="p-3 m-2 text-white">No Tasks {display}</h2>}
-        {!!filteredList && filteredList.map((task) => (
-          <Link to={`/task/${task.id}`} key={task.id} className="p-3 m-2 bg-darkish-gray rounded-xl">
-            <span className={`text-xs pt-[5px] mb-2 block ${task.isCompleted ? "text-fresh-green" : "text-light-gray"}`}>Status: {task.isCompleted ? "Completed" : "In Progress"}</span>
-            <p className="text-white mb-2">{task.title}</p>
-            <span className={`text-xs text-darkish-gray py-[5px] px-[8px] inline-block rounded-[20px] mr-2 mb-2 ${bgColor[task.priority]}`}>Priority: {task.priority}</span>
-            <span className="text-xs text-white py-[5px] px-[8px] inline-block rounded-[20px] bg-light-gray mb-2">Complexity: {task.complexity}</span>
-          </Link>
+        {!!filteredList && filteredList.map((task, index) => (
+          <motion.div initial={{opacity: 0, y: 40}} animate={{opacity: 1, y: 0}}
+                      transition={{duration: .5, delay: index * 0.3}} key={task.id}
+                      className="p-3 m-2 bg-darkish-gray rounded-xl">
+            <Link to={`/task/${task.id}`}>
+              <span
+                className={`text-xs pt-[5px] mb-2 block ${task.isCompleted ? "text-fresh-green" : "text-light-gray"}`}>Status: {task.isCompleted ? "Completed" : "In Progress"}</span>
+              <p className="text-white mb-2">{task.title}</p>
+              <span
+                className={`text-xs text-darkish-gray py-[5px] px-[8px] inline-block rounded-[20px] mr-2 mb-2 ${bgColor[task.priority]}`}>Priority: {task.priority}</span>
+              <span
+                className="text-xs text-white py-[5px] px-[8px] inline-block rounded-[20px] bg-light-gray mb-2">Complexity: {task.complexity}</span>
+            </Link>
+          </motion.div>
         ))}
       </div>
     </div>

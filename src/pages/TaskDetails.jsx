@@ -1,4 +1,5 @@
 import {Link, useNavigate} from "react-router-dom";
+import {motion} from "framer-motion";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faArrowsRotate, faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {useParams} from "react-router-dom";
@@ -42,7 +43,8 @@ const TaskDetails = () => {
 
   return (
     <div className="bg-dark-gray min-h-screen flex flex-col w-full p-8">
-      <div className="max-w-[800px] w-full flex">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ duration: .8 }} className="max-w-[800px] w-full flex">
         <div className="flex-col max-w-[50px]">
           <Link to='/'
                 className="p-1 border-dashed border-peach border rounded-full w-[32px] h-[32px] inline-flex items-center justify-center text-white">
@@ -80,8 +82,9 @@ const TaskDetails = () => {
               <div className="w-full h-1 relative my-1">
                 <span
                   className={`w-full h-1 absolute right-0 top-0 rounded-sm opacity-20 ${bgColor[task.priority]}`}></span>
-                <span className={`rounded-sm h-1 block ${bgColor[task.priority]} opacity-100 relative`}
-                      style={{width: `${progress}%`}}></span>
+                <motion.span className={`rounded-sm h-1 block ${bgColor[task.priority]} opacity-100 relative`}
+                             initial={{ width: '0%' }} animate={{ width: `${progress}%`}}
+                             transition={{ duration: 0.5, delay: 0.3 }}></motion.span>
               </div>
               <p className="text-right text-white mb-4">{progress}%</p>
               <div>
@@ -106,7 +109,7 @@ const TaskDetails = () => {
             </button>
           }
         </div>
-      </div>
+      </motion.div>
 
     </div>
   )

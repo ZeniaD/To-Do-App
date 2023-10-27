@@ -75,7 +75,7 @@ const Home = () => {
   const sortedList = getSortedList(filteredList);
   const tags = getTags();
   const powerModeTask = isPowerMode && sortedList.find((element) => !element.isCompleted);
-console.log(powerModeTask)
+
   return (
     <div className="bg-dark-gray min-h-screen flex flex-col w-full p-8">
       <div className="relative mb-8">
@@ -139,8 +139,8 @@ console.log(powerModeTask)
         <div className="pt-8 grid grid-cols-3 gap-4">
           {isPowerMode && !powerModeTask && <h2 className="text-soft-silver">No tasks or uncompleted tasks.</h2>}
           {isPowerMode ? powerModeTask && <Task key={powerModeTask.id} task={powerModeTask}/>
-            : sortedList.map((task) => (
-              <Task key={task.id} task={task}/>
+            : sortedList.map((task, index) => (
+              <Task key={task.id} task={task} index={index}/>
           ))}
         </div>
       )}
