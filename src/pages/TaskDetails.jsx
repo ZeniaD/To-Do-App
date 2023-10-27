@@ -104,7 +104,7 @@ const TaskDetails = () => {
           )}
 
           {task.isCompleted &&
-            <button className="py-2 px-8 mt-8 hover:bg-[#2a67d9] rounded-[30px] bg-royal-blue text-white" onClick={() => resetTask(task.id)}>
+            <button className="py-2 px-8 mt-8 hover:bg-[#2a67d9] rounded-[30px] bg-royal-blue text-white block" onClick={() => resetTask(task.id)}>
               <FontAwesomeIcon icon={faArrowsRotate} className="mr-2"/>Repeat Task
             </button>
           }
