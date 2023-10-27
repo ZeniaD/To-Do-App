@@ -126,8 +126,8 @@ const Home = () => {
             {showTags && (
               <div className="absolute top-[45px] p-2 left-[100px] bg-[#313132] w-[180px] rounded-[8px] z-20">
                 <ul>
-                  {tags.map((tag, index) => (
-                    <TagInput value={tag} key={index} handleChange={handleTagChange} filterTags={filterTags}/>
+                  {tags.map((tag) => (
+                    <TagInput value={tag} key={tag} handleChange={handleTagChange} filterTags={filterTags}/>
                   ))}
                 </ul>
               </div>)}
