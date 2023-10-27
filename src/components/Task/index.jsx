@@ -38,7 +38,7 @@ const Task = ({task, index}) => {
   return (
     <motion.div initial={{opacity: 0, x: 50, y: 20}} animate={{opacity: 1, x: 0, y: 0}}
                 transition={{duration: .8, delay: index * 0.3}}
-                className={`${task.isCompleted ? "bg-[#3c3428] line-through" : "bg-darker-gray"} w-full min-h-[200px] flex flex-col rounded-xl p-4 `}>
+                className={`${task.isCompleted ? "bg-[#28303c] line-through" : "bg-darker-gray"} w-full min-h-[200px] flex flex-col rounded-xl p-4 `}>
       <div className="flex relative">
         {!!task.dueDate && <span
           className={`opacity-80 text-xs ${dueIsToday() ? "text-scarlet" : "text-light-gray"}`}>{formatDate(task.dueDate)}</span>}
