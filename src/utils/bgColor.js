@@ -1,4 +1,5 @@
 export const bgColor = {
+  0: "bg-lavender",
   1: "bg-fresh-green",
   2: "bg-fresh-green",
   3: "bg-royal-blue",

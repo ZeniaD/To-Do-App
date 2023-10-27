@@ -7,6 +7,7 @@ import {uid} from "uid";
 import ListForm from "../ListForm"
 import SelectButtons from "../SelectButtons";
 import CheckList from "../CheckList";
+import "./form.css";
 
 const Form = (props) => {
   const [title, setTitle] = useState(props.task ? props.task.title : "");
