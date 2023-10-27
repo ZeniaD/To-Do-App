@@ -129,14 +129,14 @@ const Form = (props) => {
                  className="p-2 focus:outline-none rounded-lg border-slate-600 bg-darkish-gray min-w-full leading-5 flex items-center text-soft-silver"/>
           <ListForm handleSubmit={handleChecklistSubmit} id="task-checklist" title="Subtasks"/>
           {!!checklist && (
-            <div className="ml-3 mr-10">
+            <div className="ml-4 mr-12">
               <CheckList checklist={checklist} removeChecklistItem={removeChecklistItem}
                          completeChecklistItem={completeChecklistItem}/>
             </div>
           )}
           <ListForm handleSubmit={handleTagsSubmit} id="task-tags" title="Tags"/>
           {isInvalidTag && <p className="text-sm text-scarlet pt-2">{isInvalidTag} already added</p>}
-          {!!tags && (<div className="mt-3">
+          {!!tags && (<div className="mt-3 ml-4">
             {tags.map((tag) =>
               <p key={tag.id}
                  className="inline-flex items-center pl-3 pr-1 mr-3 bg-peach text-darkish-gray rounded-2xl">{tag.title}
