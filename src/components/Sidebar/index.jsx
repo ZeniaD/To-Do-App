@@ -16,15 +16,17 @@ const Sidebar = () => {
   const getFilteredList = (list) => {
     let newList;
     const currentDate = new Date();
+    const formattedCurrentDate = currentDate.toISOString().split('T')[0];
+
     if (display === "Today") {
-      newList = list.filter((item) => item.dueDate === currentDate.toISOString().split('T')[0])
+      newList = list.filter((item) => item.dueDate === formattedCurrentDate);
     } else if (display === "Overdue") {
-      newList = list.filter((item) => item.dueDate < currentDate.toISOString().split('T')[0])
+      newList = list.filter((item) => item.dueDate < formattedCurrentDate);
     } else {
-      const inWeek = new Date(currentDate);
-      inWeek.setDate(currentDate.getDate() + 7);
-      const formattedDate = inWeek.toISOString().slice(0, 10);
-      newList = list.filter((item) => item.dueDate >= currentDate.toISOString().split('T')[0] && item.dueDate < formattedDate)
+      const endOfWeek = new Date(currentDate);
+      endOfWeek.setDate(currentDate.getDate() + (7 + (7-currentDate.getDay())) % 7);
+      const formattedEndOfWeek = endOfWeek.toISOString().slice(0, 10);
+      newList = list.filter((item) => item.dueDate >= formattedCurrentDate && item.dueDate <= formattedEndOfWeek);
     }
 
     return newList;
