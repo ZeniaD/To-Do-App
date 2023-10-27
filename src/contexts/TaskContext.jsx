@@ -21,7 +21,7 @@ function useLocalState(key, initialValue) {
 }
 
 export const TaskProvider = ({ children }) => {
-  const [tasks, setTasks] = useLocalState('tasks', []);
+  const [tasks, setTasks] = useLocalState('tasks',[]);
 
   const addTask = (item) => {
     const newTasks = [...tasks, { ...item, isCompleted: false, id: uid() }];
@@ -60,8 +60,26 @@ export const TaskProvider = ({ children }) => {
     return tasks.find((task) => task.id === id);
   }
 
+  const resetTask = (id) => {
+    const newList = tasks.map((element) => {
+      if (element.id === id) {
+        element.isCompleted = false;
+
+        if (element.checklist) {
+          element.checklist = element.checklist.map((item) => {
+            item.isCompleted = false;
+            return item;
+          })
+        }
+      }
+      return element;
+    });
+
+    setTasks(newList);
+  }
+
   return (
-    <TaskContext.Provider value={{tasks, addTask, editTask, handleComplete, handleRemove,getTask}}>
+    <TaskContext.Provider value={{tasks, addTask, editTask, handleComplete, handleRemove, getTask, resetTask}}>
       {children}
     </TaskContext.Provider>
   );

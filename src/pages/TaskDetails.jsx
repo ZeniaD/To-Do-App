@@ -9,7 +9,7 @@ import {bgColor} from "../utils/bgColor";
 import {getTagBg} from "../utils/tagBg";
 
 const TaskDetails = () => {
-  const {editTask, handleComplete, handleRemove, getTask} = useTask();
+  const {editTask, handleComplete, handleRemove, getTask, resetTask} = useTask();
   const {id} = useParams();
   const task = getTask(id);
   const navigate = useNavigate();
@@ -39,15 +39,10 @@ const TaskDetails = () => {
   }
 
   const progress = Math.floor((task.checklist.filter((item) => item.isCompleted === true).length / task.checklist.length) * 100);
-  const hasDate = !!task.dueDate;
-  const hasPriority = !!task.priority;
-  const hasComplexity = !!task.complexity;
-  const hasChecklist = !!task.checklist.length;
-  const hasTags = !!task.tags.length;
 
   return (
     <div className="bg-dark-gray min-h-screen flex flex-col w-full p-8">
-      <div className="max-w-[800px] w-full mx-4 p-[20px] flex">
+      <div className="max-w-[800px] w-full flex">
         <div className="flex-col max-w-[50px]">
           <Link to='/'
                 className="p-1 border-dashed border-peach border rounded-full w-[32px] h-[32px] inline-flex items-center justify-center text-white">
@@ -67,10 +62,10 @@ const TaskDetails = () => {
               <FontAwesomeIcon className="w-[10px]" icon={faTrashCan}/>
             </button>
           </div>
-          {hasDate && <p className="text-light-gray mb-4">Due Date: {formatDate(task.dueDate)}</p>}
-          {hasPriority && <span
+          {!!task.dueDate && <p className="text-light-gray mb-4">Due Date: {formatDate(task.dueDate)}</p>}
+          {!!task.priority && <span
             className={`text-sm text-slate-950 py-[5px] px-[8px] border inline-block border-transparent rounded-[20px] mr-2 mb-4 ${bgColor[task.priority]}`}>Priority: {task.priority}</span>}
-          {hasComplexity && <span
+          {!!task.complexity && <span
             className="text-sm text-slate-800 py-[5px] px-[8px] border inline-block border-transparent rounded-[20px] mr-2 mb-4 bg-white ">Complexity: {task.complexity}</span>}
           <span
             className={`text-sm py-[5px] px-[8px] border rounded-[20px] inline-block mb-4 ${task.isCompleted ? "border-fresh-green bg-fresh-green text-darkish-gray" : "border-light-gray text-light-gray"}`}>Status:
@@ -79,7 +74,7 @@ const TaskDetails = () => {
               <option value="Completed" selected={task.isCompleted}>Completed</option>
               <option value="In progress" selected={!task.isCompleted}>In Progress</option></select>
           </span>
-          {hasChecklist && (
+          {!!task.checklist.length && (
             <div>
               <p className="text-white">Progress</p>
               <div className="w-full h-1 relative my-1">
@@ -96,9 +91,9 @@ const TaskDetails = () => {
             </div>
           )}
 
-          {hasTags && (
+          {!!task.tags.length && (
             <div>
-              <p className="text-white mb-3">Tags</p>
+              <p className="text-white mb-3 mt-4">Tags</p>
               {task.tags.map((tag, index) => <p key={tag.id}
                                                 className={`${getTagBg(index + 1)} inline-block px-3 mr-2 mb-2 text-darkish-gray rounded-2xl`}>{tag.title}</p>
               )}
@@ -106,7 +101,7 @@ const TaskDetails = () => {
           )}
 
           {task.isCompleted &&
-            <button className="py-2 px-8 mt-8 hover:bg-[#2a67d9] rounded-[30px] bg-royal-blue text-white">
+            <button className="py-2 px-8 mt-8 hover:bg-[#2a67d9] rounded-[30px] bg-royal-blue text-white" onClick={() => resetTask(task.id)}>
               <FontAwesomeIcon icon={faArrowsRotate} className="mr-2"/>Repeat Task
             </button>
           }

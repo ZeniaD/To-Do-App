@@ -96,7 +96,7 @@ const Form = (props) => {
 
   return (
     <div className="bg-dark-gray min-h-screen flex flex-col w-full p-8">
-      <div className="max-w-[800px] w-full mx-4 p-[20px]">
+      <div className="max-w-[800px] w-full">
         <div className="relative">
           <Link to='/'
                 className="absolute p-1 border-dashed border-peach border rounded-full w-[32px] h-[32px] inline-flex items-center justify-center text-white">

@@ -39,7 +39,7 @@ const Sidebar = () => {
         <DisplayTab handleDisplay={handleDisplay} display={display} value="This Week"/>
       </div>
       <div className="flex flex-col">
-        {!filteredList.length && <h2 className="p-3 m-2 text-white">No tasks {display}</h2>}
+        {!filteredList.length && <h2 className="p-3 m-2 text-white">No Tasks {display}</h2>}
         {!!filteredList && filteredList.map((task) => (
           <Link to={`/task/${task.id}`} key={task.id} className="p-3 m-2 bg-darkish-gray rounded-xl">
             <span className={`text-xs pt-[5px] mb-2 block ${task.isCompleted ? "text-fresh-green" : "text-light-gray"}`}>Status: {task.isCompleted ? "Completed" : "In Progress"}</span>
