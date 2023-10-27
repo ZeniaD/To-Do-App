@@ -80,7 +80,7 @@ const Task = ({task, index}) => {
           <span className={`w-full h-1 absolute right-0 top-0 rounded-sm opacity-20 ${bgColor[task.priority]}`}></span>
           <motion.span className={`rounded-sm h-1 block ${bgColor[task.priority]} opacity-100 relative`}
                        initial={{width: '0%'}} animate={{width: `${progress}%`}}
-                       transition={{duration: 0.5, delay: (index + 1) * 0.3}}></motion.span>
+                       transition={{duration: 0.5, delay: (index + 1) * 0.6}}></motion.span>
         </div>
         <p className="float-right text-white">{progress}%</p>
       </div>)}
