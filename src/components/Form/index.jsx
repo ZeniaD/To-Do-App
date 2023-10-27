@@ -144,7 +144,7 @@ const Form = (props) => {
             )}
           </div>)}
           <button type="submit"
-                  className="py-2 px-5 hover:bg-tangerine rounded-[30px] bg-peach text-darkish-gray mt-2">{props.submitText}</button>
+                  className="py-2 px-5 hover:bg-tangerine rounded-[30px] bg-peach text-darkish-gray mt-8">{props.submitText}</button>
         </form>
       </div>
     </div>
