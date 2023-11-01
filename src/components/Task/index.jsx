@@ -13,6 +13,7 @@ import {useTask} from "../../contexts/TaskContext";
 import {formatDate} from "../../utils/formatDate";
 import {bgColor} from "../../utils//bgColor";
 import {getTagBg} from "../../utils/tagBg";
+import useClickOutside from "../../utils/useClickOutside";
 
 const Task = ({task, index}) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -33,6 +34,8 @@ const Task = ({task, index}) => {
     return task.dueDate === currentDate.toISOString().split('T')[0];
   }
 
+  let menuRef = useClickOutside(() => setShowMenu(false));
+
   const progress = Math.floor((task.checklist.filter((item) => item.isCompleted === true).length / task.checklist.length) * 100);
 
   return (
@@ -42,29 +45,31 @@ const Task = ({task, index}) => {
       <div className="flex relative">
         {!!task.dueDate && <span
           className={`opacity-80 text-xs ${dueIsToday() ? "text-scarlet" : "text-light-gray"}`}>{formatDate(task.dueDate)}</span>}
-        <div className="ml-auto z-10">
+        <div className="ml-auto z-10 flex">
           <button onClick={() => handleComplete(task.id)}
                   className="w-[25px] h-[25px] hover:scale-125 transition-all text-white">
             {task.isCompleted ? <FontAwesomeIcon icon={faCircleCheck}/> : <FontAwesomeIcon icon={faCircleOutline}/>}
           </button>
-          <button onClick={toggleMenu} className="w-[25px] h-[25px] text-white" type="button">
-            <FontAwesomeIcon icon={faEllipsisVertical}/>
-          </button>
-        </div>
-        {showMenu && (
-          <div className="z-20 absolute top-[25px] right-0 bg-darkish-gray w-[100px] rounded-[8px] p-2">
-            <Link to={`/task/${task.id}`} className="block w-full text-lavender opacity-70 hover:opacity-100 text-left">
-              <FontAwesomeIcon className="pr-[5px] w-[12px]" icon={faEye}/> View
-            </Link>
-            <Link to={`/task/edit/${task.id}`}
-                  className="block w-full text-royal-blue opacity-80 hover:opacity-100 text-left">
-              <FontAwesomeIcon className="pr-[5px] w-[12px]" icon={faPenToSquare}/> Edit
-            </Link>
-            <button className="block w-full text-scarlet opacity-70 hover:opacity-100 text-left" type="button"
-                    onClick={() => handleRemove(task.id)}>
-              <FontAwesomeIcon className="pr-[5px] w-[12px]" icon={faTrashCan}/> Delete
+          <div ref={menuRef} className="w-[25px]">
+            <button onClick={toggleMenu} className="w-[25px] h-[25px] text-white" type="button">
+              <FontAwesomeIcon icon={faEllipsisVertical}/>
             </button>
-          </div>)}
+            {showMenu && (
+              <div className="z-20 absolute top-[25px] right-0 bg-darkish-gray w-[100px] rounded-[8px] p-2">
+                <Link to={`/task/${task.id}`} className="block w-full text-lavender opacity-70 hover:opacity-100 text-left">
+                  <FontAwesomeIcon className="pr-[5px] w-[12px]" icon={faEye}/> View
+                </Link>
+                <Link to={`/task/edit/${task.id}`}
+                      className="block w-full text-royal-blue opacity-80 hover:opacity-100 text-left">
+                  <FontAwesomeIcon className="pr-[5px] w-[12px]" icon={faPenToSquare}/> Edit
+                </Link>
+                <button className="block w-full text-scarlet opacity-70 hover:opacity-100 text-left" type="button"
+                        onClick={() => handleRemove(task.id)}>
+                  <FontAwesomeIcon className="pr-[5px] w-[12px]" icon={faTrashCan}/> Delete
+                </button>
+              </div>)}
+          </div>
+        </div>
       </div>
       <div className="text-center py-[15px]">
         <Link to={`/task/${task.id}`}

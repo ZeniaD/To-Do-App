@@ -12,7 +12,7 @@ const EditTask = () => {
   }
 
   return (
-    <Form handleSubmit={handleSubmit} title="Edit task" task={task} submitText="Edit Task"/>
+    <Form handleSubmit={handleSubmit} title="Edit task" task={task} submitText="Save Task"/>
   )
 }
 
