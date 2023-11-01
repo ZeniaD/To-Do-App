@@ -34,7 +34,7 @@ const Task = ({task, index}) => {
     return task.dueDate === currentDate.toISOString().split('T')[0];
   }
 
-  let menuRef = useClickOutside(() => setShowMenu(false));
+  const menuRef = useClickOutside(() => setShowMenu(false));
 
   const progress = Math.floor((task.checklist.filter((item) => item.isCompleted === true).length / task.checklist.length) * 100);
 

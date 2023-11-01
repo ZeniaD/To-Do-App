@@ -75,8 +75,8 @@ const Home = () => {
     setFilterTags(newList);
   }
 
-  let menuRef = useClickOutside(() => setShowFilters(false));
-  let tagsRef = useClickOutside(() => setShowTags(false));
+  const menuRef = useClickOutside(() => setShowFilters(false));
+  const tagsRef = useClickOutside(() => setShowTags(false));
 
   const filteredList = tasks.filter((element) => element.title.toLowerCase().includes(searchValue.toLowerCase())).filter((element) => filterByTags(element));
   const sortedList = getSortedList(filteredList);
