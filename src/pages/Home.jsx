@@ -2,6 +2,7 @@ import {useState} from "react";
 import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleDown, faMagnifyingGlass, faPlus, faPowerOff} from "@fortawesome/free-solid-svg-icons";
+import {motion} from "framer-motion";
 import {useTask} from "../contexts/TaskContext";
 import Task from "../components/Task";
 import SortItem from "../components/SortItem";
@@ -95,13 +96,13 @@ const Home = () => {
         <h1 className="text-white inline-block mr-2 text-3xl">All Tasks</h1>
         <div>
           <Link to='/task/add'
-                className="py-2 px-5 hover:bg-tangerine rounded-[30px] bg-peach text-darkish-gray mt-8 inline-flex items-center mr-4">
+                className="py-2 px-5 rounded-[30px] border-peach border-dashed border text-white inline-flex items-center mr-4">
             <FontAwesomeIcon className="mr-2 w-[12px] h-[12px]" icon={faPlus}/> Add Task
           </Link>
           <button
-            className="py-2 px-5 rounded-[30px] bg-royal-blue text-white mt-8 inline-flex items-center justify-center hover:bg-[#2053b0]"
+            className={`${isPowerMode && "bg-royal-blue"} py-2 px-5 rounded-[30px] border border-dashed border-royal-blue text-white inline-flex items-center justify-center`}
             onClick={() => setIsPowerMode(!isPowerMode)}>
-            <FontAwesomeIcon icon={faPowerOff} className="mr-2 w-[12px] h-[12px]"/> {isPowerMode ? "Disable" : "Enable"} Power Mode
+            <FontAwesomeIcon icon={faPowerOff} className="mr-2 w-[12px] h-[12px]"/>Power Mode
           </button>
         </div>
       </div>
@@ -114,7 +115,9 @@ const Home = () => {
             <FontAwesomeIcon icon={faAngleDown} className={`h-[12px]  mx-1 ${showFilters ? "rotate-180" : ""}`}/>
           </button>
           {showFilters && (
-            <div className="absolute right-0 top-[45px] p-2 left-0 bg-[#313132] w-[180px] rounded-[8px] z-20">
+            <motion.div initial={{y: 15}} animate={{y: 0}}
+                        transition={{duration: .3}}
+              className="absolute right-0 top-[45px] p-2 left-0 bg-darkish-gray w-[180px] rounded-[8px] z-20">
               <SortItem handleClick={handleSortChange} currentValue={sort} order="Default" sortBy="" name="Default"/>
               <SortItem handleClick={handleSortChange} currentValue={sort} order="Descending" sortBy="priority"
                         name="Top Priority"/>
@@ -128,7 +131,7 @@ const Home = () => {
                         name="Date Descending"/>
               <SortItem handleClick={handleSortChange} currentValue={sort} order="Ascending" sortBy="dueDate"
                         name="Date Ascending"/>
-            </div>
+            </motion.div>
           )}
         </div>
         {!!tags.length && (
@@ -140,13 +143,15 @@ const Home = () => {
               <FontAwesomeIcon icon={faAngleDown} className={`h-[12px]  mx-1 ${showTags ? "rotate-180" : ""}`}/>
             </button>
             {showTags && (
-              <div className="absolute top-[45px] p-2 left-[100px] bg-[#313132] w-[180px] rounded-[8px] z-20">
+              <motion.div initial={{y: 15}} animate={{y: 0}}
+                          transition={{duration: .3}}
+                          className="absolute top-[45px] p-2 left-[100px] bg-darkish-gray w-[180px] rounded-[8px] z-20">
                 <ul>
                   {tags.map((tag) => (
                     <TagInput value={tag} key={tag} handleChange={handleTagChange} filterTags={filterTags}/>
                   ))}
                 </ul>
-              </div>)}
+              </motion.div>)}
           </div>
         )}
       </div>

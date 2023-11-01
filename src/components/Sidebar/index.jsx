@@ -46,8 +46,8 @@ const Sidebar = () => {
         {!!filteredList && filteredList.map((task, index) => (
           <motion.div initial={{opacity: 0, y: 40}} animate={{opacity: 1, y: 0}}
                       transition={{duration: .5, delay: index * 0.3}} key={task.id}
-                      className="p-3 m-2 bg-darkish-gray rounded-xl">
-            <Link to={`/task/${task.id}`}>
+                      className="flex flex-col m-2 bg-darkish-gray rounded-xl">
+            <Link to={`/task/${task.id}`} className="p-3">
               <span
                 className={`text-xs pt-[5px] mb-2 block ${task.isCompleted ? "text-fresh-green" : "text-light-gray"}`}>Status: {task.isCompleted ? "Completed" : "In Progress"}</span>
               <p className="text-white mb-2">{task.title}</p>
